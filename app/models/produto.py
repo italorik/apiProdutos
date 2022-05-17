@@ -1,4 +1,6 @@
-from sqlalchemy import Column,BigInteger, String, Numeric, Integer
+from sqlalchemy import Column, BigInteger, String, Numeric, Integer, CheckConstraint, DateTime
+
+from sqlalchemy.sql.functions import current_timestamp
 
 from app import db
 
@@ -9,10 +11,10 @@ class Produto(db.Model):
     id = Column(BigInteger, primary_key=True)
     nome = Column(String(128), nullable=False)
     preco = Column(Numeric(10,2), CheckConstraint('preco >= 0.0'), nullable=False, server_default="0.0")
-    quantidade = Column(Integer, CheckConstraint('preco >= 0.0'), nullable=False, server_default="0")
+    quantidade = Column(Integer, CheckConstraint('quantidade >= 0.0'), nullable=False, server_default="0")
 
     criado_em = Column(DateTime, server_default=current_timestamp())
-    modificado_em = Column(DateTime, server_default=corrent_timestamp(), onupdate=corrent_timestamp())
+    modificado_em = Column(DateTime, server_default=current_timestamp(), onupdate=current_timestamp())
 
     def __init__(self, nome: str = "", preco: float = 0.0, quantidade: int = 0) -> None:
         self.nome = nome

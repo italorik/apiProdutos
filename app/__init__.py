@@ -8,8 +8,14 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
+#CORS(app)
 
 from app.models import produto
 #from app.models import usuario
 
 db.create_all()
+
+# importar as classes controladoras
+from app.controllers.produto_controller import ProdutoController
+app.register_blueprint(ProdutoController.produto_controller, url_prefix="/api/v1/")
+
